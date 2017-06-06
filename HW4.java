@@ -21,29 +21,26 @@ public class HW4 {
         Scanner sc = new Scanner(System.in);
         RBTree t = new RBTree();
         int n;
-        for (int i = 0; ; i++) {
+        while (true) {
             n = sc.nextInt();
-            if (n < 0 && t.isWrongDeletion(Math.abs(n))) {
-                System.out.println("Wrong deletion");
-                n = 0;
-            }
             if (n == 0) {
-                System.out.println(t.nodeNum);
-                System.out.println(t.countBNodeNum());
-                System.out.println(t.countBHeight());
                 break;
             }
             else {
                 if (n > 0)
                     t.rbInsert(n);
-                else
-                    t.rbDelete(-1 * n);
-                t.print(t.root, 0);
-                System.out.println(t.nodeNum);
-                System.out.println(t.countBNodeNum());
-                System.out.println(t.countBHeight());
+                else {
+                    if (t.isWrongDeletion(Math.abs(n)))
+                        System.out.println("Wrong deletion: " + Math.abs(n));
+                    else
+                        t.rbDelete(-1 * n);
+                }
             }
         }
+        System.out.println("total = " + t.nodeNum);
+        System.out.println("nb = " + t.countBNodeNum());
+        System.out.println("bh = " + t.countBHeight());
+        t.print(t.root);
 
         sc.close();
     }
@@ -296,20 +293,12 @@ class RBTree {
         return x;
     }
 
-    public void print(Node tree, int level) {
-        if (tree.right != nil)
-            print(tree.right, level + 1);
-        for (int i = 0; i < level; i++)
-            System.out.print("    ");
-        System.out.print(tree.val);
-        if (tree.color == red) {
-            System.out.println("r");
-        }
-        else {
-            System.out.println("b");
-        }
+    public void print(Node tree) {
         if (tree.left != nil)
-            print(tree.left, level + 1);
+            print(tree.left);
+        System.out.println(tree.val);
+        if (tree.right != nil)
+            print(tree.right);
     }
     public void inorder(Node tree){
         if (tree.right != nil)
