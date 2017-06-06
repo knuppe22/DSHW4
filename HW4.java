@@ -25,7 +25,7 @@ public class HW4 {
             String line = br.readLine();
             if (line == null)
                 break;
-            n = Integer.valueOf(line);
+            n = Integer.parseInt(line);
 
             if (n == 0) {
                 break;
