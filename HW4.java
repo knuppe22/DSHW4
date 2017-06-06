@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 enum Color { red, black }
 
@@ -17,12 +16,17 @@ public class HW4 {
         br.close();
     }
     */
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("D:\\Users\\A759\\Desktop\\input.txt"));
+
         RBTree t = new RBTree();
         int n;
         while (true) {
-            n = sc.nextInt();
+            String line = br.readLine();
+            if (line == null)
+                break;
+            n = Integer.valueOf(line);
+
             if (n == 0) {
                 break;
             }
@@ -42,7 +46,7 @@ public class HW4 {
         System.out.println("bh = " + t.countBHeight());
         t.print(t.root);
 
-        sc.close();
+        br.close();
     }
 }
 
