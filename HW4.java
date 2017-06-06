@@ -23,12 +23,11 @@ public class HW4 {
         int n;
         for (int i = 0; ; i++) {
             n = sc.nextInt();
-            if (n < 0 && t.isWrongDeletion(n)) {
+            if (n < 0 && t.isWrongDeletion(Math.abs(n))) {
                 System.out.println("Wrong deletion");
                 n = 0;
             }
             if (n == 0) {
-                System.out.println(t.root.val);
                 System.out.println(t.nodeNum);
                 System.out.println(t.countBNodeNum());
                 System.out.println(t.countBHeight());
@@ -40,7 +39,6 @@ public class HW4 {
                 else
                     t.rbDelete(-1 * n);
                 t.print(t.root, 0);
-                System.out.println(t.root.val);
                 System.out.println(t.nodeNum);
                 System.out.println(t.countBNodeNum());
                 System.out.println(t.countBHeight());
@@ -339,7 +337,7 @@ class RBTree {
         return count;
     }
     public boolean isWrongDeletion(int n) {
-        return treeSearch(root, n).val == -1;
+        return treeSearch(root, n) == nil;
 
     }
 }
