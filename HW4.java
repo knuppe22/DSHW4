@@ -28,7 +28,7 @@ public class HW4 {
                     t.rbInsert(n);
                 else {
                     if (t.isWrongDeletion(Math.abs(n))) {
-                        System.out.println("Wrong deletion: " + Math.abs(n));
+                        // System.out.println("Wrong deletion: " + Math.abs(n));
                         t.deleteErrorCount++;
                     }
                     else
