@@ -5,24 +5,14 @@ import java.io.IOException;
 enum Color { red, black }
 
 public class HW4 {
-    /*
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("input.txt"));
-        while(true) {
-            String line = br.readLine();
-            if (line==null) break;
-            System.out.println(line);
-        }
-        br.close();
-    }
-    */
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("D:\\Users\\A759\\Desktop\\input.txt"));
 
         RBTree t = new RBTree();
         int n;
         while (true) {
             String line = br.readLine();
+            line.replaceAll(" ", "");
             if (line == null)
                 break;
             n = Integer.parseInt(line);
