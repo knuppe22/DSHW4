@@ -1,12 +1,15 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 
 enum Color { red, black }
 
 public class HW4 {
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+        String filename = "input.txt";
+        File f = new File(filename);
+        BufferedReader br = new BufferedReader(new FileReader(filename));
 
         RBTree t = new RBTree();
         int n;
@@ -24,14 +27,20 @@ public class HW4 {
                 if (n > 0)
                     t.rbInsert(n);
                 else {
-                    if (t.isWrongDeletion(Math.abs(n)))
+                    if (t.isWrongDeletion(Math.abs(n))) {
                         System.out.println("Wrong deletion: " + Math.abs(n));
+                        t.deleteErrorCount++;
+                    }
                     else
                         t.rbDelete(-1 * n);
                 }
             }
         }
+        System.out.println("filename = " + f.getName());
         System.out.println("total = " + t.nodeNum);
+        System.out.println("insert = " + t.insertCount);
+        System.out.println("deleted = " + t.deleteCount);
+        System.out.println("miss = " + t.deleteErrorCount);
         System.out.println("nb = " + t.countBNodeNum());
         System.out.println("bh = " + t.countBHeight());
         t.print(t.root);
@@ -58,7 +67,9 @@ class RBTree {
 
     int nodeNum = 0;
     int bNodeNum = 0;
-    int bh = 0;
+    int insertCount = 0;
+    int deleteCount = 0;
+    int deleteErrorCount = 0;
 
     final int red = 0;
     final int black = 1;
@@ -71,6 +82,7 @@ class RBTree {
     public void rbInsert(int newval) {
         rbInsert(new Node(newval));
         nodeNum++;
+        insertCount++;
     }
     public void rbInsert(Node z) {
         Node y = nil;
@@ -182,6 +194,7 @@ class RBTree {
         Node z = treeSearch(root, newval);
         rbDelete(z);
         nodeNum--;
+        deleteCount++;
     }
     public void rbDelete(Node z) {
         Node x;
@@ -290,7 +303,13 @@ class RBTree {
     public void print(Node tree) {
         if (tree.left != nil)
             print(tree.left);
-        System.out.println(tree.val);
+
+        System.out.print(tree.val);
+        if (tree.color == red)
+            System.out.println(" R");
+        else
+            System.out.println(" B");
+
         if (tree.right != nil)
             print(tree.right);
     }
