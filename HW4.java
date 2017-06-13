@@ -7,45 +7,56 @@ enum Color { red, black }
 
 public class HW4 {
     public static void main(String[] args) throws IOException {
-        String filename = "input.txt";
-        File f = new File(filename);
-        BufferedReader br = new BufferedReader(new FileReader(filename));
+        File dir = new File("./input/");
+        File[] fileList = dir.listFiles();
+        try{
+            for(int i = 0 ; i < fileList.length ; i++){
+                File file = fileList[i];
+                if(file.isFile()) {
+                    BufferedReader br = new BufferedReader(new FileReader(file.getPath()));
 
-        RBTree t = new RBTree();
-        int n;
-        while (true) {
-            String line = br.readLine();
-            line.replaceAll(" ", "");
-            if (line == null)
-                break;
-            n = Integer.parseInt(line);
+                    RBTree t = new RBTree();
+                    int n;
+                    while (true) {
+                        String line = br.readLine();
+                        line.replaceAll(" ", "");
+                        if (line == null)
+                            break;
+                        n = Integer.parseInt(line);
 
-            if (n == 0) {
-                break;
-            }
-            else {
-                if (n > 0)
-                    t.rbInsert(n);
-                else {
-                    if (t.isWrongDeletion(Math.abs(n))) {
-                        // System.out.println("Wrong deletion: " + Math.abs(n));
-                        t.deleteErrorCount++;
+                        if (n == 0) {
+                            break;
+                        }
+                        else {
+                            if (n > 0)
+                                t.rbInsert(n);
+                            else {
+                                if (t.isWrongDeletion(Math.abs(n))) {
+                                    // System.out.println("Wrong deletion: " + Math.abs(n));
+                                    t.deleteErrorCount++;
+                                }
+                                else
+                                    t.rbDelete(-1 * n);
+                            }
+                        }
                     }
-                    else
-                        t.rbDelete(-1 * n);
+
+                    System.out.println("filename = " + file.getName());
+                    System.out.println("total = " + t.nodeNum);
+                    System.out.println("insert = " + t.insertCount);
+                    System.out.println("deleted = " + t.deleteCount);
+                    System.out.println("miss = " + t.deleteErrorCount);
+                    System.out.println("nb = " + t.countBNodeNum());
+                    System.out.println("bh = " + t.countBHeight());
+                    t.print(t.root);
+
+                    br.close();
+
                 }
             }
+        } catch(Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("filename = " + f.getName());
-        System.out.println("total = " + t.nodeNum);
-        System.out.println("insert = " + t.insertCount);
-        System.out.println("deleted = " + t.deleteCount);
-        System.out.println("miss = " + t.deleteErrorCount);
-        System.out.println("nb = " + t.countBNodeNum());
-        System.out.println("bh = " + t.countBHeight());
-        t.print(t.root);
-
-        br.close();
     }
 }
 
